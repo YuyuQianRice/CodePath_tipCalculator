@@ -17,6 +17,10 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var tipRate: UISegmentedControl!
     
+    @IBOutlet weak var tipRatePercentile: UILabel!
+    
+    @IBOutlet weak var rateSlider: UISlider!
+    
     override func viewDidLoad() {
          super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -57,6 +61,9 @@ class ViewController: UIViewController {
         totalLabel.text = String(format: "$%.2f", tip + bill)
     }
     
-
+    @IBAction func rateFiner(_ sender: Any) {
+        tipRatePercentile.text = String(format: "%d%%", Int(rateSlider.value))
+    }
+    
 }
 
