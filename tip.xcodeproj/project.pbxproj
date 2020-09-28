@@ -13,8 +13,9 @@
 		89C02BFB251DA0C70038202C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89C02BF9251DA0C70038202C /* Main.storyboard */; };
 		89C02BFD251DA0C90038202C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89C02BFC251DA0C90038202C /* Assets.xcassets */; };
 		89C02C00251DA0C90038202C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89C02BFE251DA0C90038202C /* LaunchScreen.storyboard */; };
-		89C02C0B251DA0C90038202C /* tipTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C02C0A251DA0C90038202C /* tipTests.swift */; };
 		89C02C16251DA0C90038202C /* tipUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C02C15251DA0C90038202C /* tipUITests.swift */; };
+		89C02C3B251EA8310038202C /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C02C3A251EA8310038202C /* SettingViewController.swift */; };
+		89C02C48251F0A240038202C /* tipTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C02C0A251DA0C90038202C /* tipTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		89C02C11251DA0C90038202C /* tipUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tipUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89C02C15251DA0C90038202C /* tipUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tipUITests.swift; sourceTree = "<group>"; };
 		89C02C17251DA0C90038202C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		89C02C3A251EA8310038202C /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,8 +101,10 @@
 		89C02BF2251DA0C70038202C /* tip */ = {
 			isa = PBXGroup;
 			children = (
+				89C02C35251EA7980038202C /* view */,
 				89C02BF3251DA0C70038202C /* AppDelegate.swift */,
 				89C02BF5251DA0C70038202C /* SceneDelegate.swift */,
+				89C02C3A251EA8310038202C /* SettingViewController.swift */,
 				89C02BF7251DA0C70038202C /* ViewController.swift */,
 				89C02BF9251DA0C70038202C /* Main.storyboard */,
 				89C02BFC251DA0C90038202C /* Assets.xcassets */,
@@ -113,7 +117,6 @@
 		89C02C09251DA0C90038202C /* tipTests */ = {
 			isa = PBXGroup;
 			children = (
-				89C02C0A251DA0C90038202C /* tipTests.swift */,
 				89C02C0C251DA0C90038202C /* Info.plist */,
 			);
 			path = tipTests;
@@ -122,10 +125,18 @@
 		89C02C14251DA0C90038202C /* tipUITests */ = {
 			isa = PBXGroup;
 			children = (
+				89C02C0A251DA0C90038202C /* tipTests.swift */,
 				89C02C15251DA0C90038202C /* tipUITests.swift */,
 				89C02C17251DA0C90038202C /* Info.plist */,
 			);
 			path = tipUITests;
+			sourceTree = "<group>";
+		};
+		89C02C35251EA7980038202C /* view */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = view;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,6 +272,7 @@
 				89C02BF8251DA0C70038202C /* ViewController.swift in Sources */,
 				89C02BF4251DA0C70038202C /* AppDelegate.swift in Sources */,
 				89C02BF6251DA0C70038202C /* SceneDelegate.swift in Sources */,
+				89C02C3B251EA8310038202C /* SettingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +280,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89C02C0B251DA0C90038202C /* tipTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				89C02C16251DA0C90038202C /* tipUITests.swift in Sources */,
+				89C02C48251F0A240038202C /* tipTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
