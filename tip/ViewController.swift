@@ -12,12 +12,22 @@ class ViewController: UIViewController {
     let defaults = UserDefaults.standard
     var currencySymbol: String = "\u{24}"
     let tipPercentages = [0.15, 0.18, 0.2]
+    let currencyCode = ["USD", "CNY", "EUR", "GBP"]
+    let symbols = ["\u{24}", "\u{A5}", "\u{20AC}", "\u{A3}"]
+    
+    var toCurrencyCode = "None"
+    var exchangeRate = 1.0000
+    var exchangeMode = false
     
     @IBOutlet weak var tipLabel: UILabel!
     
     @IBOutlet weak var totalLabel: UILabel!
     
     @IBOutlet weak var billAmount: UITextField!
+    
+    @IBOutlet weak var rateLabel: UILabel!
+    
+    @IBOutlet weak var newTotal: UILabel!
     
     @IBOutlet weak var tipRate: UISegmentedControl!
     
@@ -46,6 +56,10 @@ class ViewController: UIViewController {
         
         self.view.overrideUserInterfaceStyle = defaults.bool(forKey: "isNightMode") ? .dark : .light
         
+        toCurrencyCode = defaults.string(forKey: "toCurrency") ?? "USD"
+        exchangeRate = defaults.double(forKey: "exchangeRate")
+        exchangeMode = defaults.bool(forKey: "exchangeMode")
+        toggleExchangeInfo(exchangeMode)
         calculateTip(self)
     }
     
@@ -69,6 +83,10 @@ class ViewController: UIViewController {
         
         self.view.overrideUserInterfaceStyle = defaults.bool(forKey: "isNightMode") ? .dark : .light
         
+        toCurrencyCode = defaults.string(forKey: "toCurrency") ?? "USD"
+        exchangeRate = defaults.double(forKey: "exchangeRate")
+        exchangeMode = defaults.bool(forKey: "exchangeMode")
+        toggleExchangeInfo(exchangeMode)
         calculateTip(self)
     }
     
@@ -103,6 +121,19 @@ class ViewController: UIViewController {
         // Update tip and total amount
         tipLabel.text = String(format: currencySymbol + "%.2f", tip)
         totalLabel.text = String(format: currencySymbol + "%.2f", tip + bill)
+        
+        rateLabel.text = "X " + String(format: "%.4f", exchangeRate) + " To"
+        newTotal.text =  String(format: symbols[currencyCode.index(of: toCurrencyCode) ?? 0]  + "%.2f", exchangeRate * (tip + bill))
+    }
+    
+    func toggleExchangeInfo (_ exchangeMode:Bool) {
+        if (exchangeMode) {
+            rateLabel.isHidden = false
+            newTotal.isHidden = false
+        } else {
+            rateLabel.isHidden = true
+            newTotal.isHidden = true
+        }
     }
     
     @IBAction func rateFiner(_ sender: Any) {
