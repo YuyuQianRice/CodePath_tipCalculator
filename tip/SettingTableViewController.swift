@@ -1,22 +1,45 @@
 //
-//  SettingViewController.swift
+//  SettingTableViewController.swift
 //  tip
 //
-//  Created by Yuyu Qian on 9/25/20.
+//  Created by Yuyu Qian on 9/28/20.
 //
-import Foundation
+
 import UIKit
 
-class SettingViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class SettingTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+        return 4
+    }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+
+        let sectionName: String
+        switch section {
+            case 0:
+                sectionName = NSLocalizedString("Preset Settings", comment: "Preset Settings")
+            default:
+                sectionName = ""
+        }
+        return sectionName
+    }
+
     let defaults = UserDefaults.standard
     let pickerData = ["The United States", "China", "Europe", "England"]
     let symbols = ["\u{24}", "\u{A5}", "\u{20AC}", "\u{A3}"]
     
+   
     @IBOutlet weak var isNightModeOn: UISwitch!
     
     @IBOutlet weak var tipRatePreSet: UITextField!
-    
+
     @IBOutlet weak var locationPicker: UIPickerView!
     
     @IBOutlet weak var currencySymbolSelected: UITextField!
@@ -62,7 +85,9 @@ class SettingViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         setBackgroundColor()
     }
     
-    @IBAction func saveButtonTap(_ sender: Any) {
+    @IBAction func saveButtonTap(_ sender: UIButton) {
+        sender.saveButtonClick()
+        
         //Access UserDefaults
         defaults.set((abs(Int(tipRatePreSet.text ?? "15") ?? 15)) % 100, forKey: "tipRatePreSet")
         
