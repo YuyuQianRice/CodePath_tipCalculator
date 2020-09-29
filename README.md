@@ -38,11 +38,15 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+I wanted to use different currency separators for different currency(For CNY, people use currency ten-thousands separators instead of currency thousands separators)
+
+I was parsing HTTP get requst result JSON objects with different field name for every permutation currency exchange pair. Yet, I have to define a lot of structs to decode the JSON object and I do not know how to do it in an elegant way.
+
+The HTTP get request response really slow and I still don't know how to improve it since I am not the provide for currency exchange API, I do have limited choices to implement the currency exchange function and user have to manually update exchange rate later on.
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [Yuyu Qian(Rice University)] [CodePath]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
