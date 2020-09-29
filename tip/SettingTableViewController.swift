@@ -46,8 +46,8 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
     let pickerData = ["The United States", "China", "Europe", "England"]
     let currencyData = ["USD", "CNY", "EUR", "GBP"]
     let symbols = ["\u{24}", "\u{A5}", "\u{20AC}", "\u{A3}"]
-    var fromCurrencyCode = "None"
-    var toCurrencyCode = "None"
+    var fromCurrencyCode = "USD"
+    var toCurrencyCode = "USD"
    
     @IBOutlet weak var toCurLabel: UILabel!
     
@@ -221,12 +221,10 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
         locationPicker.selectRow(symbols.firstIndex(of: currencySymbolSelected.text ?? "\u{24}") ?? 0, inComponent: 0, animated: true)
         
         fromCurrencyCode = currencyData[locationPicker.selectedRow(inComponent: 0)]
-        toCurrencyCode = defaults.string(forKey: "toCurrency") ?? "None"
+        toCurrencyCode = defaults.string(forKey: "toCurrency") ?? "USD"
         exchangeRate.text = defaults.string(forKey: "exchangeRate")
-        
-        if (toCurrencyCode != "None") {
-            toCurrencyPicker.selectRow(currencyData.firstIndex(of: toCurrencyCode ) ?? 0, inComponent: 0, animated: true)
-        }
+                
+        toCurrencyPicker.selectRow(currencyData.firstIndex(of: toCurrencyCode ) ?? 0, inComponent: 0, animated: true)
         
         exchangeMode.isOn = defaults.bool(forKey: "exchangeMode")
         
