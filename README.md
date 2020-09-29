@@ -1,34 +1,38 @@
-# Pre-work - *Name of App Here*
+# Pre-work - *UUTipCalc*
 
-**Name of your app** is a tip calculator application for iOS.
+**UUTipCalc** is a tip calculator application for iOS.
 
-Submitted by: **Your Name Here**
+Submitted by: **Yuyu Qian**
 
-Time spent: **X** hours spent in total
+Time spent: **8** hours spent in total
 
 ## User Stories
 
 The following **required** functionality is complete:
 
-* [ ] User can enter a bill amount, choose a tip percentage, and see the tip and total values.
-* [ ] User can select between tip percentages by tapping different values on the segmented control and the tip value is updated accordingly
+* [X] User can enter a bill amount, choose a tip percentage, and see the tip and total values.
+* [X] User can select between tip percentages by tapping different values on the segmented control and the tip value is updated accordingly
 
 The following **optional** features are implemented:
 
-* [ ] UI animations
-* [ ] Remembering the bill amount across app restarts (if <10mins)
-* [ ] Using locale-specific currency and currency thousands separators.
-* [ ] Making sure the keyboard is always visible and the bill amount is always the first responder. This way the user doesn't have to tap anywhere to use this app. Just launch the app and start typing.
+* [X] UI animations
+* [X] Remembering the bill amount across app restarts (if <10mins)
+* [X] Using locale-specific currency and currency thousands separators.
+* [X] Making sure the keyboard is always visible and the bill amount is always the first responder. This way the user doesn't have to tap anywhere to use this app. Just launch the app and start typing.
 
 The following **additional** features are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality!
+- [X] User can choose set a custermized preset tip rate as default tip rate.
+- [X] User can use a sliding bar to adjust tip rate and the sliding bar will reponse to any tip rate change.
+- [X] User can choose their own locale currency and preset one as default locale.
+- [X] User can turn on currency exchange to get bill in another currency.
+- [X] User can fetch currency exchange rate from server through http get request.
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='<blockquote class="imgur-embed-pub" lang="en" data-id="a/5JNZJTX" data-context="false" ><a href="//imgur.com/a/5JNZJTX"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
