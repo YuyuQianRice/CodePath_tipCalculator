@@ -152,8 +152,10 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
             case locationPicker:
                 self.currencySymbolSelected.text = symbols[row]
                 updateExchangeInfo()
+                exchangeRate.text = ""
             case toCurrencyPicker:
                 updateExchangeInfo()
+                exchangeRate.text = ""
             default: break
                 
         }
@@ -188,6 +190,7 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
         sender.saveButtonClick()
         
         //Access UserDefaults
+        print("tip rate: " + String((abs(Int(tipRatePreSet.text ?? "15") ?? 15)) % 100))
         defaults.set((abs(Int(tipRatePreSet.text ?? "15") ?? 15)) % 100, forKey: "tipRatePreSet")
         
         defaults.set(currencySymbolSelected.text ?? "\u{24}", forKey: "currencySymbol")

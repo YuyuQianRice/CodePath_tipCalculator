@@ -7,6 +7,42 @@
 
 import UIKit
 
+extension Date {
+    var millisecondsSince1970:Int64 {
+        return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
+    }
+
+    init(milliseconds:Int64) {
+        self = Date(timeIntervalSince1970: TimeInterval(milliseconds) / 1000)
+    }
+}
+
+extension Formatter {
+    static let rmb: NumberFormatter = {
+        let formatter = NumberFormatter()
+        // set the numberStyle to .CurrencyStyle
+        formatter.numberStyle = .currency
+        // set the desired negative and positive formats grouping, and currency symbol position
+        formatter.positiveFormat = "#,###0.00 ¤"
+        formatter.negativeFormat = "-#,###0.00 ¤"
+        // set your custom currency symbol
+        formatter.currencySymbol = ""
+        return formatter
+    }()
+    
+    static let other: NumberFormatter = {
+        let formatter = NumberFormatter()
+        // set the numberStyle to .CurrencyStyle
+        formatter.numberStyle = .currency
+        // set the desired negative and positive formats grouping, and currency symbol position
+        formatter.positiveFormat = "#,##0.00 ¤"
+        formatter.negativeFormat = "-#,##0.00 ¤"
+        // set your custom currency symbol
+        formatter.currencySymbol = ""
+        return formatter
+    }()
+}
+
 class ViewController: UIViewController {
     var usingSlider: Bool = false
     let defaults = UserDefaults.standard
@@ -18,7 +54,7 @@ class ViewController: UIViewController {
     var toCurrencyCode = "None"
     var exchangeRate = 1.0000
     var exchangeMode = false
-    
+
     @IBOutlet weak var tipLabel: UILabel!
     
     @IBOutlet weak var totalLabel: UILabel!
@@ -46,10 +82,9 @@ class ViewController: UIViewController {
 
         currencySymbol = defaults.string(forKey: "currencySymbol") ?? "\u{24}"
         
-        if (defaults.integer(forKey: "tipRatePreSet") != 15) {
+        if (defaults.integer(forKey: "tipRatePreSet") != 0) {
             usingSlider = true
             tipRatePercentile.text = String(format: "%d%%", Int(defaults.integer(forKey: "tipRatePreSet")))
-            rateSlider.setValue(Float(defaults.integer(forKey: "tipRatePreSet")), animated: true)
         }
         
 //        self.view.backgroundColor = defaults.bool(forKey: "isNightMode") ? #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -60,6 +95,8 @@ class ViewController: UIViewController {
         exchangeRate = defaults.double(forKey: "exchangeRate")
         exchangeMode = defaults.bool(forKey: "exchangeMode")
         toggleExchangeInfo(exchangeMode)
+        billAmount.becomeFirstResponder()
+        billAmount.text = String(defaults.string(forKey: "billAmount") ?? "")
         calculateTip(self)
     }
     
@@ -67,16 +104,28 @@ class ViewController: UIViewController {
          super.viewDidLoad()
         // Do any additional setup after loading the view.
         // Not working?
+        let currentDate = Date().millisecondsSince1970
+        let preData = defaults.integer(forKey: "millisecondsSince1970") ?? 0
+        
+        if (currentDate > (preData + 600000)) { //clear the defaults
+//            let dictionary = defaults.dictionaryRepresentation()
+//                dictionary.keys.forEach { key in
+//                    defaults.removeObject(forKey: key)
+//                }
+            print("10min")
+            defaults.set(0, forKey: "millisecondsSince1970")
+            defaults.set("", forKey: "billAmount")
+        }
+        
         defaults.synchronize()
         let doubleTapGr = UITapGestureRecognizer(target: self, action: #selector(doubleTapFunc(_:)))
         doubleTapGr.numberOfTapsRequired = 2
         doubleTapGr.numberOfTouchesRequired = 1
         self.view.addGestureRecognizer(doubleTapGr)
         self.view.isUserInteractionEnabled = true
-            
         currencySymbol = defaults.string(forKey: "currencySymbol") ?? "\u{24}"
         
-        if (defaults.integer(forKey: "tipRatePreSet") != 15) {
+        if (defaults.integer(forKey: "tipRatePreSet") != 0) {
             usingSlider = true
             tipRatePercentile.text = String(format: "%d%%", Int(defaults.integer(forKey: "tipRatePreSet")))
         }
@@ -87,11 +136,13 @@ class ViewController: UIViewController {
         exchangeRate = defaults.double(forKey: "exchangeRate")
         exchangeMode = defaults.bool(forKey: "exchangeMode")
         toggleExchangeInfo(exchangeMode)
+        billAmount.becomeFirstResponder()
+        billAmount.text = String(defaults.string(forKey: "billAmount") ?? "")
         calculateTip(self)
     }
     
     @objc func doubleTapFunc(_ sender: Any){
-        billAmount.text = String(format: "%.2f", 0)
+        billAmount.text = ""//String(format: "%.2f", 0)
         calculateTip(self)
     }
     
@@ -100,7 +151,7 @@ class ViewController: UIViewController {
 //    }
 
     @IBAction func onTap(_ sender: Any) {
-        view.endEditing(true)
+//        view.endEditing(true)
     }
     
     @IBAction func calculateTip(_ sender: Any) {
@@ -110,7 +161,6 @@ class ViewController: UIViewController {
         //?? means assign with 0 if no value
         
         // Calculate the tip and total
-
         var tip:Double = 0.0
         if (!usingSlider) {
             tip = bill * tipPercentages[tipRate.selectedSegmentIndex]
@@ -119,11 +169,28 @@ class ViewController: UIViewController {
         }
         
         // Update tip and total amount
-        tipLabel.text = String(format: currencySymbol + "%.2f", tip)
-        totalLabel.text = String(format: currencySymbol + "%.2f", tip + bill)
+//        tipLabel.text = String(format: currencySymbol + "%.2f", tip)
+//        totalLabel.text = String(format: currencySymbol + "%.2f", tip + bill)
+        rateLabel.text = "* " + String(format: "%.4f", exchangeRate) + " To"
+//        newTotal.text =  String(format: symbols[currencyCode.index(of: toCurrencyCode) ?? 0]  + "%.2f", exchangeRate * (tip + bill))
         
-        rateLabel.text = "X " + String(format: "%.4f", exchangeRate) + " To"
-        newTotal.text =  String(format: symbols[currencyCode.index(of: toCurrencyCode) ?? 0]  + "%.2f", exchangeRate * (tip + bill))
+        if (currencySymbol == "\u{A5}") { //use chinese way of seperating
+            tipLabel.text = currencySymbol + String(Formatter.rmb.string(for: tip) ?? "")
+            totalLabel.text =  currencySymbol + String(Formatter.rmb.string(for: (tip + bill)) ?? "")
+        } else {
+            tipLabel.text = currencySymbol + String(Formatter.other.string(for: tip) ?? "")
+            totalLabel.text =  currencySymbol + String(Formatter.other.string(for: (tip + bill)) ?? "")
+        }
+
+        if (symbols[currencyCode.firstIndex(of: toCurrencyCode) ?? 0] == "\u{A5}") {
+            newTotal.text =  symbols[currencyCode.firstIndex(of: toCurrencyCode) ?? 0] + String(Formatter.rmb.string(for: (exchangeRate * (tip + bill))) ?? "")
+        } else {
+            newTotal.text =  symbols[currencyCode.firstIndex(of: toCurrencyCode) ?? 0] + String(Formatter.other.string(for: (exchangeRate * (tip + bill))) ?? "")
+        }
+        
+        //store current time and this billAmount into defaults
+        defaults.set(Date().millisecondsSince1970, forKey: "millisecondsSince1970")
+        defaults.set(billAmount.text, forKey: "billAmount")
     }
     
     func toggleExchangeInfo (_ exchangeMode:Bool) {
