@@ -54,7 +54,7 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
    
     @IBOutlet weak var toCurLabel: UILabel!
     
-    @IBOutlet weak var _to_Label: UILabel!
+//    @IBOutlet weak var _to_Label: UILabel!
     
     @IBOutlet weak var exchangeRate: UILabel!
     
@@ -82,13 +82,13 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
     func toggleExchangeSettingHiden(_ on:Bool) {
         if (on) {
             toCurrencyPicker.isHidden = false
-            _to_Label.isHidden = false
+            exchangeInfo.isHidden = false
             toCurLabel.isHidden = false
             exchangeRate.isHidden = false
             fetchRateButton.isHidden = false
         } else {
             toCurrencyPicker.isHidden = true
-            _to_Label.isHidden = true
+            exchangeInfo.isHidden = true
             toCurLabel.isHidden = true
             exchangeRate.isHidden = true
             fetchRateButton.isHidden = true
@@ -323,6 +323,8 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
         let urlString = "https://free.currconv.com/api/v7/convert?q=" + fromCurrencyCode + "_" + toCurrencyCode + "&compact=ultra&apiKey=19f56650ad3b6bbe3aa6"
         let url = URL(string: urlString)
         guard let requestUrl = url else { fatalError() }
+        
+        print("URL: " + urlString)
 
         // Create URL Request
         var request = URLRequest(url: requestUrl)
@@ -331,7 +333,7 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
         request.httpMethod = "GET"
 
         // Send HTTP Request
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) -> Void in
             
             // Check if Error took place
             if let error = error {
@@ -345,79 +347,158 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
             }
             
             let keyValue: String = self.fromCurrencyCode + "_" + self.toCurrencyCode
+            
+            /////////////////
+            ///
+            ///
+            // Parse JSON data
+//            do {
+//                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? [String:Any]
+//                
+////                var json = JSONSerialization.jsonObject(with: data, options: .mutableContainers, error: &err) as? NSDictionary
+//
+//                if let parseJSON = json {
+//                    let resultValue:String = (parseJSON["status"] as! String?)!;
+//                    print("result: \(resultValue)")
+//                }
+//            } catch {
+//              print(error)
+//            }
+            
+//            if let data = data, let dataString = String(data: data, encoding: .utf8) {
+//                do {
+//                    print("aaa")
+//                    if let parseJSON = try! JSONSerialization.jsonObject(with: dataString!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any],
+//                       let resultValue = parseJSON["result"] as? String {
+//                              print("result: ", resultValue)
+//                        }
+//                } catch {
+//                        print("error")
+//                }
+//            }
+            
+//            if let data = data, let dataString = String(data: data, encoding: .utf8) {
+//                //print("Response data string:\n \(dataString)")
+//                let jsonData = dataString.data(using: .utf8)!
+//                let rate: _USD_CNY = try! JSONDecoder().decode(_USD_CNY.self, from: jsonData)
+//                print("dataString" + dataString)
+//
+//                let jsonResult = try! JSONSerialization.jsonObject(with: dataString, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String: Any]
+//                let jsonP = jsonResult?["result"] as! [String: Any]
+//
+//                DispatchQueue.main.async {
+//                    print(jsonP[keyValue])
+//                }
+//            }
+
+            ///
+            ///
+            ///
+            ///
+            ////////////////
+            
+            
+            
+            
             switch keyValue {
             case "USD_CNY":
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
                     //print("Response data string:\n \(dataString)")
                     let jsonData = dataString.data(using: .utf8)!
                     let rate: _USD_CNY = try! JSONDecoder().decode(_USD_CNY.self, from: jsonData)
-                    self.exchangeRate.text = "\(rate.USD_CNY)"
+                    DispatchQueue.main.async {
+                        self.exchangeRate.text = "\(rate.USD_CNY)"
+                    }
                 }
             case "USD_EUR":
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
                     let jsonData = dataString.data(using: .utf8)!
                     let rate: _USD_EUR = try! JSONDecoder().decode(_USD_EUR.self, from: jsonData)
-                    self.exchangeRate.text = "\(rate.USD_EUR)"
+                    DispatchQueue.main.async {
+                        self.exchangeRate.text = "\(rate.USD_EUR)"
+                    }
                 }
             case "USD_GBP":
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
                     let jsonData = dataString.data(using: .utf8)!
                     let rate: _USD_GBP = try! JSONDecoder().decode(_USD_GBP.self, from: jsonData)
-                    self.exchangeRate.text = "\(rate.USD_GBP)"
+                    DispatchQueue.main.async {
+                        self.exchangeRate.text = "\(rate.USD_GBP)"
+                    }
                 }
             case "CNY_USD":
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
                     let jsonData = dataString.data(using: .utf8)!
                     let rate: _CNY_USD = try! JSONDecoder().decode(_CNY_USD.self, from: jsonData)
-                    self.exchangeRate.text = "\(rate.CNY_USD)"
+//                    self.exchangeRate.text = "\(rate.CNY_USD)"
+                    DispatchQueue.main.async {
+                        self.exchangeRate.text = "\(rate.CNY_USD)"
+                    }
                 }
             case "CNY_EUR":
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
                     let jsonData = dataString.data(using: .utf8)!
                     let rate: _CNY_EUR = try! JSONDecoder().decode(_CNY_EUR.self, from: jsonData)
-                    self.exchangeRate.text = "\(rate.CNY_EUR)"
+                    
+                    DispatchQueue.main.async {
+                        self.exchangeRate.text = "\(rate.CNY_EUR)"
+                    }
                 }
             case "CNY_GBP":
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
                     let jsonData = dataString.data(using: .utf8)!
                     let rate: _CNY_GBP = try! JSONDecoder().decode(_CNY_GBP.self, from: jsonData)
-                    self.exchangeRate.text = "\(rate.CNY_GBP)"
+                    DispatchQueue.main.async {
+                        self.exchangeRate.text = "\(rate.CNY_GBP)"
+                    }
                 }
             case "EUR_USD":
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
                     let jsonData = dataString.data(using: .utf8)!
                     let rate: _EUR_USD = try! JSONDecoder().decode(_EUR_USD.self, from: jsonData)
-                    self.exchangeRate.text = "\(rate.EUR_USD)"
+                    DispatchQueue.main.async {
+                        self.exchangeRate.text = "\(rate.EUR_USD)"
+                    }
                 }
             case "EUR_CNY":
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
                     let jsonData = dataString.data(using: .utf8)!
                     let rate: _EUR_CNY = try! JSONDecoder().decode(_EUR_CNY.self, from: jsonData)
-                    self.exchangeRate.text = "\(rate.EUR_CNY)"
+                    DispatchQueue.main.async {
+                        self.exchangeRate.text = "\(rate.EUR_CNY)"
+                    }
                 }
             case "EUR_GBP":
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
                     let jsonData = dataString.data(using: .utf8)!
                     let rate: _EUR_GBP = try! JSONDecoder().decode(_EUR_GBP.self, from: jsonData)
-                    self.exchangeRate.text = "\(rate.EUR_GBP)"
+                    DispatchQueue.main.async {
+                        self.exchangeRate.text = "\(rate.EUR_GBP)"
+                    }
                 }
             case "GBP_USD":
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
                     let jsonData = dataString.data(using: .utf8)!
                     let rate: _GBP_USD = try! JSONDecoder().decode(_GBP_USD.self, from: jsonData)
-                    self.exchangeRate.text = "\(rate.GBP_USD)"
+                    DispatchQueue.main.async {
+                        self.exchangeRate.text = "\(rate.GBP_USD)"
+                    }
                 }
             case "GBP_CNY":
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
                     let jsonData = dataString.data(using: .utf8)!
                     let rate: _GBP_CNY = try! JSONDecoder().decode(_GBP_CNY.self, from: jsonData)
-                    self.exchangeRate.text = "\(rate.GBP_CNY)"
+                    DispatchQueue.main.async {
+                        self.exchangeRate.text = "\(rate.GBP_CNY)"
+                    }
                 }
             case "GBP_EUR":
                 if let data = data, let dataString = String(data: data, encoding: .utf8) {
                     let jsonData = dataString.data(using: .utf8)!
                     let rate: _GBP_EUR = try! JSONDecoder().decode(_GBP_EUR.self, from: jsonData)
-                    self.exchangeRate.text = "\(rate.GBP_EUR)"
+                    DispatchQueue.main.async {
+                        self.exchangeRate.text = "\(rate.GBP_EUR)"
+                    }
                 }
             default:
                 print(keyValue)

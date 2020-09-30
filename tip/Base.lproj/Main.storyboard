@@ -517,7 +517,6 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="_to_Label" destination="p3B-zQ-3ly" id="8CW-4M-khg"/>
                         <outlet property="currencySymbolSelected" destination="CoB-RP-h0s" id="imT-pf-5sJ"/>
                         <outlet property="exchangeInfo" destination="p3B-zQ-3ly" id="3yJ-Jz-xAQ"/>
                         <outlet property="exchangeMode" destination="etV-hl-PHh" id="3wV-5J-cZw"/>
