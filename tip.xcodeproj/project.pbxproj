@@ -40,6 +40,7 @@
 /* Begin PBXFileReference section */
 		8910EC162521B38C00542E3F /* SettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingTableViewController.swift; path = tip/SettingTableViewController.swift; sourceTree = SOURCE_ROOT; };
 		8910EC1E2521BE5900542E3F /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
+		8910EC3E2523298C00542E3F /* tip.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = tip.entitlements; sourceTree = "<group>"; };
 		89C02BF0251DA0C70038202C /* tip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89C02BF3251DA0C70038202C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		89C02BF5251DA0C70038202C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +107,7 @@
 		89C02BF2251DA0C70038202C /* tip */ = {
 			isa = PBXGroup;
 			children = (
+				8910EC3E2523298C00542E3F /* tip.entitlements */,
 				89C02BF3251DA0C70038202C /* AppDelegate.swift */,
 				89C02BF5251DA0C70038202C /* SceneDelegate.swift */,
 				89C02C3A251EA8310038202C /* SettingViewController.swift */,
@@ -448,6 +450,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = tip/tip.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R5B7A86VF5;
 				INFOPLIST_FILE = tip/Info.plist;
@@ -455,8 +458,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Codepath.tip;
+				PRODUCT_BUNDLE_IDENTIFIER = com.UUTipCalc.YuyuQian;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -467,6 +471,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = tip/tip.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R5B7A86VF5;
 				INFOPLIST_FILE = tip/Info.plist;
@@ -474,8 +479,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Codepath.tip;
+				PRODUCT_BUNDLE_IDENTIFIER = com.UUTipCalc.YuyuQian;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

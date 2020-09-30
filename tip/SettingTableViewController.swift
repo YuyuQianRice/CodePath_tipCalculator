@@ -9,11 +9,13 @@ import UIKit
 
 class SettingTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
+    //return table view controller section number
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 2
     }
     
+    //return table view controller row count for every section
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         let rowCount: Int
@@ -28,6 +30,7 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
         return rowCount
     }
     
+    //return table view controller section titles
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 
         let sectionName: String
@@ -75,6 +78,7 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
         toggleExchangeSettingHiden(exchangeMode.isOn)
     }
     
+    //toggle the visibility of widgets for currency exchange
     func toggleExchangeSettingHiden(_ on:Bool) {
         if (on) {
             toCurrencyPicker.isHidden = false
@@ -91,15 +95,15 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
         }
     }
     
-    
+    //update the exchange rate currency codes
     func updateExchangeInfo() {
         fromCurrencyCode = currencyData[locationPicker.selectedRow(inComponent: 0)]
         toCurrencyCode = currencyData[toCurrencyPicker.selectedRow(inComponent: 0)]
         exchangeInfo.text = fromCurrencyCode + " to " + toCurrencyCode;
     }
     
+    //return number of components of pickers
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        
         var numOfComp = 0;
         switch pickerView {
             case locationPicker:
@@ -109,13 +113,11 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
             default:
                 numOfComp = 1
         }
-
         return numOfComp
     }
     
     //the following are delegate functions used for different occasions
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        
         var numOfRows = 0;
         switch pickerView {
             case locationPicker:
@@ -125,11 +127,10 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
             default:
                 numOfRows = 0
         }
-
         return numOfRows
     }
     
-    
+    //return corresponding row data for corresponding component in corresponding picker
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         var rowData = "";
         switch pickerView {
@@ -161,10 +162,7 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
         }
     }
     
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    func viewUpdate() {
         exchangeInfo.text = fromCurrencyCode + " to " + toCurrencyCode;
         self.locationPicker.delegate = self
         self.locationPicker.dataSource = self
@@ -175,15 +173,14 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
     }
     
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        viewUpdate()
+    }
+    
     override func loadView() {
         super.loadView()
-        exchangeInfo.text = fromCurrencyCode + " to " + toCurrencyCode;
-        self.locationPicker.delegate = self
-        self.locationPicker.dataSource = self
-        self.toCurrencyPicker.delegate = self
-        self.toCurrencyPicker.dataSource = self
-        loadDefault()
-        setBackgroundColor()
+        viewUpdate()
     }
     
     @IBAction func saveButtonTap(_ sender: UIButton) {

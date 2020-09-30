@@ -7,6 +7,8 @@
 
 import UIKit
 
+
+//add functionality/field for Date class to achieve timeout data clearing
 extension Date {
     var millisecondsSince1970:Int64 {
         return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
@@ -17,6 +19,8 @@ extension Date {
     }
 }
 
+//use for different formatting for different currency
+//CNY will use seperator every four digits !!!
 extension Formatter {
     static let rmb: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -70,90 +74,62 @@ class ViewController: UIViewController {
     @IBOutlet weak var tipRatePercentile: UILabel!
     
     @IBOutlet weak var rateSlider: UISlider!
+    
+    func initViewsOrAppearance () {
+        defaults.synchronize()
+        let doubleTapGr = UITapGestureRecognizer(target: self, action: #selector(doubleTapFunc(_:)))
+        doubleTapGr.numberOfTapsRequired = 2
+        doubleTapGr.numberOfTouchesRequired = 1
+        self.view.addGestureRecognizer(doubleTapGr)
+        self.view.isUserInteractionEnabled = true
 
+        currencySymbol = defaults.string(forKey: "currencySymbol") ?? "\u{24}"
+        
+        if (defaults.integer(forKey: "tipRatePreSet") != 0) {
+            usingSlider = true
+            tipRatePercentile.text = String(format: "%d%%", Int(defaults.integer(forKey: "tipRatePreSet")))
+        }
+        
+        self.view.overrideUserInterfaceStyle = defaults.bool(forKey: "isNightMode") ? .dark : .light
+        
+        toCurrencyCode = defaults.string(forKey: "toCurrency") ?? "USD"
+        exchangeRate = defaults.double(forKey: "exchangeRate")
+        exchangeMode = defaults.bool(forKey: "exchangeMode")
+        toggleExchangeInfo(exchangeMode)
+        billAmount.becomeFirstResponder()
+        billAmount.text = String(defaults.string(forKey: "billAmount") ?? "")
+        calculateTip(self)
+    }
+
+    //called when return from setting view
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        defaults.synchronize()
-        let doubleTapGr = UITapGestureRecognizer(target: self, action: #selector(doubleTapFunc(_:)))
-        doubleTapGr.numberOfTapsRequired = 2
-        doubleTapGr.numberOfTouchesRequired = 1
-        self.view.addGestureRecognizer(doubleTapGr)
-        self.view.isUserInteractionEnabled = true
-
-        currencySymbol = defaults.string(forKey: "currencySymbol") ?? "\u{24}"
-        
-        if (defaults.integer(forKey: "tipRatePreSet") != 0) {
-            usingSlider = true
-            tipRatePercentile.text = String(format: "%d%%", Int(defaults.integer(forKey: "tipRatePreSet")))
-        }
-        
-//        self.view.backgroundColor = defaults.bool(forKey: "isNightMode") ? #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        
-        self.view.overrideUserInterfaceStyle = defaults.bool(forKey: "isNightMode") ? .dark : .light
-        
-        toCurrencyCode = defaults.string(forKey: "toCurrency") ?? "USD"
-        exchangeRate = defaults.double(forKey: "exchangeRate")
-        exchangeMode = defaults.bool(forKey: "exchangeMode")
-        toggleExchangeInfo(exchangeMode)
-        billAmount.becomeFirstResponder()
-        billAmount.text = String(defaults.string(forKey: "billAmount") ?? "")
-        calculateTip(self)
+        initViewsOrAppearance()
     }
     
+    //called when first loaded
     override func viewDidLoad() {
-         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        // Not working?
-        let currentDate = Date().millisecondsSince1970
-        let preData = defaults.integer(forKey: "millisecondsSince1970") ?? 0
-        
-        if (currentDate > (preData + 600000)) { //clear the defaults
-//            let dictionary = defaults.dictionaryRepresentation()
-//                dictionary.keys.forEach { key in
-//                    defaults.removeObject(forKey: key)
-//                }
-            print("10min")
-            defaults.set(0, forKey: "millisecondsSince1970")
-            defaults.set("", forKey: "billAmount")
-        }
-        
-        defaults.synchronize()
-        let doubleTapGr = UITapGestureRecognizer(target: self, action: #selector(doubleTapFunc(_:)))
-        doubleTapGr.numberOfTapsRequired = 2
-        doubleTapGr.numberOfTouchesRequired = 1
-        self.view.addGestureRecognizer(doubleTapGr)
-        self.view.isUserInteractionEnabled = true
-        currencySymbol = defaults.string(forKey: "currencySymbol") ?? "\u{24}"
-        
-        if (defaults.integer(forKey: "tipRatePreSet") != 0) {
-            usingSlider = true
-            tipRatePercentile.text = String(format: "%d%%", Int(defaults.integer(forKey: "tipRatePreSet")))
-        }
-        
-        self.view.overrideUserInterfaceStyle = defaults.bool(forKey: "isNightMode") ? .dark : .light
-        
-        toCurrencyCode = defaults.string(forKey: "toCurrency") ?? "USD"
-        exchangeRate = defaults.double(forKey: "exchangeRate")
-        exchangeMode = defaults.bool(forKey: "exchangeMode")
-        toggleExchangeInfo(exchangeMode)
-        billAmount.becomeFirstResponder()
-        billAmount.text = String(defaults.string(forKey: "billAmount") ?? "")
-        calculateTip(self)
+        super.viewDidLoad()
+        initViewsOrAppearance()
     }
     
+    //double tap to clear the bill amount
     @objc func doubleTapFunc(_ sender: Any){
         billAmount.text = ""//String(format: "%.2f", 0)
         calculateTip(self)
     }
     
+    
 //    @IBAction func doubleTapped(_ sender: Any){
 //        billAmount.text = String(format: "%.2f", 0)
 //    }
 
+    //used to end bill amount text editing
     @IBAction func onTap(_ sender: Any) {
 //        view.endEditing(true)
     }
     
+    //calculate the tip using corresponding tip rate
     @IBAction func calculateTip(_ sender: Any) {
         
         // Get the bill amount
@@ -169,11 +145,7 @@ class ViewController: UIViewController {
         }
         
         // Update tip and total amount
-//        tipLabel.text = String(format: currencySymbol + "%.2f", tip)
-//        totalLabel.text = String(format: currencySymbol + "%.2f", tip + bill)
         rateLabel.text = "* " + String(format: "%.4f", exchangeRate) + " To"
-//        newTotal.text =  String(format: symbols[currencyCode.index(of: toCurrencyCode) ?? 0]  + "%.2f", exchangeRate * (tip + bill))
-        
         if (currencySymbol == "\u{A5}") { //use chinese way of seperating
             tipLabel.text = currencySymbol + String(Formatter.rmb.string(for: tip) ?? "")
             totalLabel.text =  currencySymbol + String(Formatter.rmb.string(for: (tip + bill)) ?? "")
@@ -181,7 +153,6 @@ class ViewController: UIViewController {
             tipLabel.text = currencySymbol + String(Formatter.other.string(for: tip) ?? "")
             totalLabel.text =  currencySymbol + String(Formatter.other.string(for: (tip + bill)) ?? "")
         }
-
         if (symbols[currencyCode.firstIndex(of: toCurrencyCode) ?? 0] == "\u{A5}") {
             newTotal.text =  symbols[currencyCode.firstIndex(of: toCurrencyCode) ?? 0] + String(Formatter.rmb.string(for: (exchangeRate * (tip + bill))) ?? "")
         } else {

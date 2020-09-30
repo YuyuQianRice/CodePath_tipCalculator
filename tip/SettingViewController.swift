@@ -1,4 +1,4 @@
-//
+// !!!Currently Unused
 //  SettingViewController.swift
 //  tip
 //
@@ -21,6 +21,7 @@ class SettingViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     
     @IBOutlet weak var currencySymbolSelected: UITextField!
     
+    //return how many cols in picker
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -85,7 +86,7 @@ class SettingViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         currencySymbolSelected.text = defaults.string(forKey: "currencySymbol")
         tipRatePreSet.text = String(defaults.integer(forKey: "tipRatePreSet"))
         isNightModeOn.isOn = defaults.bool(forKey: "isNightMode")
-        locationPicker.selectRow(symbols.index(of: currencySymbolSelected.text ?? "\u{24}") ?? 0, inComponent: 0, animated: true)
+        locationPicker.selectRow(symbols.firstIndex(of: currencySymbolSelected.text ?? "\u{24}") ?? 0, inComponent: 0, animated: true)
     }
     
     func setBackgroundColor() {
