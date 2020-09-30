@@ -464,7 +464,7 @@
                                                 <button opaque="NO" contentMode="bottom" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bt3-BO-Jkb">
                                                     <rect key="frame" x="18" y="6" width="378" height="39"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                                    <state key="normal" title="Fetch Exchange Rate(Wait for seconds)">
+                                                    <state key="normal" title="Fetch Exchange Rate">
                                                         <color key="titleColor" systemColor="systemOrangeColor"/>
                                                     </state>
                                                     <connections>
