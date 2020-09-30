@@ -60,3 +60,7 @@ The HTTP get request response really slow and I still don't know how to improve 
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.v
+
+## User Privacy Policy
+    Here you could find user privacy policy if you need. 
+        https://sites.google.com/view/uutipcalcpp/home
