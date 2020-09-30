@@ -27,6 +27,7 @@ The following **additional** features are implemented:
 - [X] User can choose their own locale currency and preset one as default locale.
 - [X] User can turn on currency exchange to get bill in another currency.
 - [X] User can fetch currency exchange rate from server through http get request.
+- [X] User can double tap to clear bill amount.
 
 ## Video Walkthrough
 
