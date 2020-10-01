@@ -100,10 +100,26 @@ class ViewController: UIViewController {
         billAmount.text = String(defaults.string(forKey: "billAmount") ?? "")
         calculateTip(self)
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+//        print("view did appear")
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+//        print("view will disappear")
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+//        print("view did disappear")
+    }
 
     //called when return from setting view
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+//        print("view will appear")
         initViewsOrAppearance()
     }
     

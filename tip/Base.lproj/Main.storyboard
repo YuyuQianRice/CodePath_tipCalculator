@@ -442,7 +442,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="063-6i-q8K">
-                                                    <rect key="frame" x="238" y="8" width="156" height="24"/>
+                                                    <rect key="frame" x="228" y="8" width="156" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -450,7 +450,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="p3B-zQ-3ly" firstAttribute="leading" secondItem="O68-jv-9t8" secondAttribute="leading" constant="20" id="0aE-K9-vsr"/>
-                                                <constraint firstAttribute="trailing" secondItem="063-6i-q8K" secondAttribute="trailing" constant="20" id="rhi-Te-RkH"/>
+                                                <constraint firstAttribute="trailing" secondItem="063-6i-q8K" secondAttribute="trailing" constant="30" id="rhi-Te-RkH"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -489,6 +489,7 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="bottom" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O7y-8J-OM5">
                                                     <rect key="frame" x="104" y="2" width="216" height="39"/>
+                                                    <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                     <state key="normal" title="Save"/>
                                                     <connections>
@@ -535,6 +536,9 @@
         </scene>
     </scenes>
     <resources>
+        <systemColor name="opaqueSeparatorColor">
+            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
