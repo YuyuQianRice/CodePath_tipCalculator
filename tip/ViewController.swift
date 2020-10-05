@@ -58,7 +58,13 @@ class ViewController: UIViewController {
     var toCurrencyCode = "None"
     var exchangeRate = 1.0000
     var exchangeMode = false
+    var splitMode = false
+    var peopleSplit = 1
 
+    @IBOutlet weak var splitToLabel: UILabel!
+    
+    @IBOutlet weak var splitTotalText: UILabel!
+    
     @IBOutlet weak var tipLabel: UILabel!
     
     @IBOutlet weak var totalLabel: UILabel!
@@ -76,7 +82,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var rateSlider: UISlider!
     
     func initViewsOrAppearance () {
-        defaults.synchronize()
+//        defaults.synchronize()
         let doubleTapGr = UITapGestureRecognizer(target: self, action: #selector(doubleTapFunc(_:)))
         doubleTapGr.numberOfTapsRequired = 2
         doubleTapGr.numberOfTouchesRequired = 1
@@ -95,9 +101,12 @@ class ViewController: UIViewController {
         toCurrencyCode = defaults.string(forKey: "toCurrency") ?? "USD"
         exchangeRate = defaults.double(forKey: "exchangeRate")
         exchangeMode = defaults.bool(forKey: "exchangeMode")
+        splitMode = defaults.bool(forKey: "splitMode")
         toggleExchangeInfo(exchangeMode)
+        toggleSplitInfo(splitMode)
         billAmount.becomeFirstResponder()
         billAmount.text = String(defaults.string(forKey: "billAmount") ?? "")
+        peopleSplit = defaults.integer(forKey: "peopleCount")
         calculateTip(self)
     }
     
@@ -119,7 +128,7 @@ class ViewController: UIViewController {
     //called when return from setting view
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        print("view will appear")
+        print("view will appear")
         initViewsOrAppearance()
     }
     
@@ -165,9 +174,13 @@ class ViewController: UIViewController {
         if (currencySymbol == "\u{A5}") { //use chinese way of seperating
             tipLabel.text = currencySymbol + String(Formatter.rmb.string(for: tip) ?? "")
             totalLabel.text =  currencySymbol + String(Formatter.rmb.string(for: (tip + bill)) ?? "")
+            let splitToTotal = (tip + bill) / Double(peopleSplit)
+            splitTotalText.text = currencySymbol + String(Formatter.rmb.string(for: splitToTotal) ?? "")
         } else {
             tipLabel.text = currencySymbol + String(Formatter.other.string(for: tip) ?? "")
             totalLabel.text =  currencySymbol + String(Formatter.other.string(for: (tip + bill)) ?? "")
+            let splitToTotal = (tip + bill) / Double(peopleSplit)
+            splitTotalText.text = currencySymbol + String(Formatter.other.string(for: splitToTotal) ?? "")
         }
         if (symbols[currencyCode.firstIndex(of: toCurrencyCode) ?? 0] == "\u{A5}") {
             newTotal.text =  symbols[currencyCode.firstIndex(of: toCurrencyCode) ?? 0] + String(Formatter.rmb.string(for: (exchangeRate * (tip + bill))) ?? "")
@@ -187,6 +200,16 @@ class ViewController: UIViewController {
         } else {
             rateLabel.isHidden = true
             newTotal.isHidden = true
+        }
+    }
+    
+    func toggleSplitInfo (_ exchangeMode:Bool) {
+        if (exchangeMode) {
+            splitToLabel.isHidden = false
+            splitTotalText.isHidden = false
+        } else {
+            splitToLabel.isHidden = true
+            splitTotalText.isHidden = true
         }
     }
     

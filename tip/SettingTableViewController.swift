@@ -12,7 +12,7 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
     //return table view controller section number
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 2
+        return 3
     }
     
     //return table view controller row count for every section
@@ -23,7 +23,9 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
             case 0:
                 rowCount = 3
             case 1:
-                rowCount = 5
+                rowCount = 3
+            case 2:
+                rowCount = 2
             default:
                 rowCount = 1
         }
@@ -39,6 +41,8 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
                 sectionName = NSLocalizedString("Preset Settings", comment: "Preset Settings")
             case 1:
                 sectionName = NSLocalizedString("Exchange Settings", comment: "Exchange Settings")
+            case 2:
+                sectionName = NSLocalizedString("Split Settings", comment: "Split Settings")
             default:
                 sectionName = ""
         }
@@ -58,15 +62,19 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
     
     @IBOutlet weak var exchangeRate: UILabel!
     
-    @IBOutlet weak var fetchRateButton: UIButton!
+    @IBOutlet weak var howManyPpl: UILabel!
     
-    @IBOutlet weak var isNightModeOn: UISwitch!
+    @IBOutlet weak var peopleNumText: UITextField!
     
     @IBOutlet weak var tipRatePreSet: UITextField!
 
     @IBOutlet weak var locationPicker: UIPickerView!
     
     @IBOutlet weak var toCurrencyPicker: UIPickerView!
+    
+    @IBOutlet weak var isNightModeOn: UISwitch!
+    
+    @IBOutlet weak var splitMode: UISwitch!
     
     @IBOutlet weak var exchangeMode: UISwitch!
     
@@ -85,13 +93,21 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
             exchangeInfo.isHidden = false
             toCurLabel.isHidden = false
             exchangeRate.isHidden = false
-            fetchRateButton.isHidden = false
         } else {
             toCurrencyPicker.isHidden = true
             exchangeInfo.isHidden = true
             toCurLabel.isHidden = true
             exchangeRate.isHidden = true
-            fetchRateButton.isHidden = true
+        }
+    }
+    
+    func toggleSplitSettingHidden (_ on:Bool) {
+        if(on) {
+            howManyPpl.isHidden = false
+            peopleNumText.isHidden = false
+        } else {
+            howManyPpl.isHidden = true
+            peopleNumText.isHidden = true
         }
     }
     
@@ -156,7 +172,7 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
                 exchangeRate.text = ""
             case toCurrencyPicker:
                 updateExchangeInfo()
-                exchangeRate.text = ""
+                CurrencyExchangeRateGet()
             default: break
                 
         }
@@ -183,9 +199,12 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
         viewUpdate()
     }
     
-    @IBAction func saveButtonTap(_ sender: UIButton) {
-        sender.saveButtonClick()
-        
+    @IBAction func splitModeButtonToggle(_ sender: Any) {
+        toggleSplitSettingHidden(splitMode.isOn)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         //Access UserDefaults
         print("tip rate: " + String((abs(Int(tipRatePreSet.text ?? "15") ?? 15)) % 100))
         defaults.set((abs(Int(tipRatePreSet.text ?? "15") ?? 15)) % 100, forKey: "tipRatePreSet")
@@ -200,12 +219,37 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
         
         defaults.set(exchangeMode.isOn, forKey: "exchangeMode")
         
+        defaults.set(splitMode.isOn, forKey: "splitMode")
+        
+        defaults.set(peopleNumText.text, forKey: "peopleCount")
+        
+        
         // Force UserDefaults to save.
         defaults.synchronize()
-        
-        self.loadView()
-        self.parent?.reloadInputViews()
     }
+    
+//    @IBAction func saveButtonTap(_ sender: UIButton) {
+//        sender.saveButtonClick()
+//
+//        //Access UserDefaults
+//        print("tip rate: " + String((abs(Int(tipRatePreSet.text ?? "15") ?? 15)) % 100))
+//        defaults.set((abs(Int(tipRatePreSet.text ?? "15") ?? 15)) % 100, forKey: "tipRatePreSet")
+//
+//        defaults.set(currencySymbolSelected.text ?? "\u{24}", forKey: "currencySymbol")
+//
+//        defaults.set(isNightModeOn.isOn, forKey: "isNightMode")
+//
+//        defaults.set(toCurrencyCode, forKey: "toCurrency")
+//
+//        defaults.set(exchangeRate.text, forKey: "exchangeRate")
+//
+//        defaults.set(exchangeMode.isOn, forKey: "exchangeMode")
+//
+//        // Force UserDefaults to save.
+//        defaults.synchronize()
+//
+//        self.loadView()
+//    }
     
     @IBAction func nightModeButtonChanged(_ sender: Any) {
         self.view.overrideUserInterfaceStyle = isNightModeOn.isOn ? .dark : .light
@@ -225,14 +269,22 @@ class SettingTableViewController: UITableViewController, UIPickerViewDelegate, U
         
         exchangeMode.isOn = defaults.bool(forKey: "exchangeMode")
         
+        splitMode.isOn = defaults.bool(forKey: "splitMode")
+        
+        peopleNumText.text = defaults.string(forKey: "peopleCount")
+        
+        toggleSplitSettingHidden(splitMode.isOn)
+        
         toggleExchangeSettingHiden(exchangeMode.isOn)
     }
+    
+    
     
     func setBackgroundColor() {
         self.view.overrideUserInterfaceStyle = defaults.bool(forKey: "isNightMode") ? .dark : .light
     }
     
-    @IBAction func CurrencyExchangeRateGet(_ sender: Any) {
+    func CurrencyExchangeRateGet() {
         // Create URL
         
         if (toCurrencyCode == fromCurrencyCode) {
