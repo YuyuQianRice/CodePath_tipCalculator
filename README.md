@@ -28,12 +28,16 @@ The following **additional** features are implemented:
 - [X] User can turn on currency exchange to get bill in another currency.
 - [X] User can fetch currency exchange rate from server through http get request.
 - [X] User can double tap to clear bill amount.
+- [X] User can split bill amount with given number of person.
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
 <img src='./tip3.gif' width='' alt='Video Walkthrough' />
+
+## updated version:
+<img src='./ppt3.gif' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
