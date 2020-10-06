@@ -37,7 +37,7 @@ Here's a walkthrough of implemented user stories:
 <img src='./tip3.gif' width='' alt='Video Walkthrough' />
 
 ## updated version:
-<img src='./ppt3.gif' width='' alt='Video Walkthrough' />
+<img src='./ppt4.gif' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
